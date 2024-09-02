@@ -361,12 +361,37 @@ on_update(function ()
         end
     end
 
-    if spells.concealment.logics() then
-        cast_end_time = current_time + 0.4;
+    if spells.smoke_grenade.logics(entity_list, target_selector_data, best_target)then
+        cast_end_time = current_time + 0.1;
+        return;
+    end;
+
+    if not is_heartseeker_exception then
+        if spells.shadow_step.logics(entity_list, target_selector_data, best_target, closest_target)then
+            cast_end_time = current_time + 0.1;
+            return;
+        end
+    if spells.poison_imbuement.logics()then
+        -- cast_end_time = current_time + 0.1;
         return;
     end;
 
     if spells.shadow_clone.logics(closest_target) then
+        cast_end_time = current_time + 0.1;
+        return;
+    end;
+
+    if spells.poison_trap.logics(entity_list, target_selector_data, best_target) then
+        cast_end_time = current_time + 0.1;
+        return;
+    end
+
+    if spells.barrage.logics(closest_target)then
+        cast_end_time = current_time + 0.1;
+        return;
+    end;
+
+    if spells.concealment.logics() then
         cast_end_time = current_time + 0.4;
         return;
     end;
@@ -375,11 +400,6 @@ on_update(function ()
         cast_end_time = current_time + 0.4;
         return;
     end;
-
-    if spells.poison_trap.logics(entity_list, target_selector_data, best_target) then
-        cast_end_time = current_time + 0.4;
-        return;
-    end
 
     if spells.rain_of_arrows.logics(best_target)then
         cast_end_time = current_time + 1.5;
@@ -391,33 +411,17 @@ on_update(function ()
         return;
     end;
 
-    if spells.poison_imbuement.logics()then
-        -- cast_end_time = current_time + 0.1;
-        return;
-    end;
-
     if spells.cold_imbuement.logics()then
         -- cast_end_time = current_time + 0.4;
         return;
     end;
 
-    if not is_heartseeker_exception then
-        if spells.shadow_step.logics(entity_list, target_selector_data, best_target, closest_target)then
-            cast_end_time = current_time + 0.4;
-            return;
-        end
-    
         if spells.dash.logics(closest_target)then
             cast_end_time = current_time + 0.4;
             return;
         end;
     
         if spells.caltrop.logics(entity_list, target_selector_data, closest_target)then
-            cast_end_time = current_time + 0.4;
-            return;
-        end;
-    
-        if spells.smoke_grenade.logics(entity_list, target_selector_data, best_target)then
             cast_end_time = current_time + 0.4;
             return;
         end;
@@ -430,11 +434,6 @@ on_update(function ()
 
     if spells.twisting_blade.logics(best_target)then
         cast_end_time = current_time + 0.2;
-        return;
-    end;
-
-    if spells.barrage.logics(closest_target)then
-        cast_end_time = current_time + 0.1;
         return;
     end;
 

@@ -1,3 +1,34 @@
+-- all in one (aio) target selector data
+-- returns table:
+
+-- bool, is_valid -- true once finds 1 valid target inside the list regardless of type
+-- game_object, closest unit
+-- game_object, lowest current health unit
+-- game_object, highest current health unit
+-- game_object, lowest max health unit
+-- game_object, highest max health unit
+
+-- bool, has_elite -- true once finds 1 elite inside the list
+-- game_object, closest elite
+-- game_object, lowest current health elite
+-- game_object, highest current health elite
+-- game_object, lowest max health elite
+-- game_object, highest max health elite
+
+-- bool, has_champion -- true once finds 1 champion inside the list
+-- game_object, closest champion
+-- game_object, lowest current health champion
+-- game_object, highest current health champion
+-- game_object, lowest max health champion
+-- game_object, highest max health champion
+
+-- bool, has_boss -- true once finds 1 boss inside the list
+-- game_object, closest boss
+-- game_object, lowest current health boss
+-- game_object, highest current health boss
+-- game_object, lowest max health boss
+-- game_object, highest max health boss
+
 local function get_unit_weight(unit)
     local score = 0
     local debuff_priorities = {
@@ -146,18 +177,8 @@ local function get_target_selector_data(source, list)
     local highest_max_health_boss_health = 0.0;
 
     for _, unit in ipairs(possible_targets_list) do
-        local local_screen_range = math.huge
-		if unit:get_skin_name() == "S05_BSK_Rogue_001_Clone" then
-			goto continue;
-		end
-
         local unit_position = unit:get_position()
         local distance_sqr = unit_position:squared_dist_to_ignore_z(source)
-
-        -- Check if the unit is within the local screen range
-        if distance_sqr > (local_screen_range * local_screen_range) then
-            goto continue
-        end
 
         local max_health = unit:get_max_health()
         local current_health = unit:get_current_health()
@@ -278,8 +299,6 @@ local function get_target_selector_data(source, list)
                 highest_max_health_boss_health = max_health;
             end
         end
-
-        ::continue::
     end
 
     return 
@@ -329,28 +348,17 @@ local function get_target_list(source, range, collision_table, floor_table, angl
     
     for _, unit in ipairs(possible_targets_list) do
 
-        local local_screen_range = 12
-        if unit:get_skin_name() == "S05_BSK_Rogue_001_Clone" then
-            local_screen_range = 3
-        end
-
-        if unit:get_skin_name() == "S05_BSK_Rogue_001_Clone" and #possible_targets_list < 1 then
-            goto continue
-        end
-
+		if unit:get_skin_name() == "S05_BSK_Rogue_001_Clone" then
+			goto continue;
+		end
         if collision_table.is_enabled then
             local is_invalid = prediction.is_wall_collision(source, unit:get_position(), collision_table.width);
             if is_invalid then
                 goto continue;
             end
         end
-
+		
         local unit_position = unit:get_position()
-
-        -- Check if the unit is within the local screen range
-        if unit_position:squared_dist_to_ignore_z(source) > (local_screen_range * local_screen_range) then
-            goto continue
-        end
 
         if floor_table.is_enabled then
             local z_difference = math.abs(source.z() - unit_position:z())

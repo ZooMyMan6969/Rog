@@ -40,7 +40,7 @@ local function will_cast(target)
         spell_id_poison_imb
     )
 
-    if not is_logic_allowed or is_active() then
+    if not is_logic_allowed then
         return false
     end
 

@@ -19,7 +19,7 @@ local spell_id_barrage = 439762;
 
 local spell_data_barrage = spell_data:new(
     3.0,                        -- radius
-    4.0,                        -- range
+    5.0,                        -- range
     1.5,                        -- cast_delay
     3.0,                        -- projectile_speed
     true,                       -- has_collision
